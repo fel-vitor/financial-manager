@@ -1,17 +1,3 @@
-<app-balance-card
-    [type]="'outcome'"
-    [label]="'Gastos'"
-    [value]="100"
-/>
-
-<app-balance-card
-    [type]="'balance'"
-    [label]="'Saldo'"
-    [value]="100"
-/>
-
-<app-balance-card
-    [type]="'income'"
-    [label]="'Ganhos'"
-    [value]="200"
+<app-balance
+    [transactions]="transactions()"
 />

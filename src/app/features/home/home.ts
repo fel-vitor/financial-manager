@@ -1,15 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Balance } from './components/balance/balance';
-import { TransactionItem } from './components/transaction-item/transaction-item';
+import { MatButtonModule } from '@angular/material/button';
 import { Transaction } from '../../shared/transaction/interfaces/transaction';
-import { TransactionType } from '../../shared/transaction/enums/transaction-types';
+import { Balance } from './components/balance/balance';
 import { NoTransactions } from './components/no-transactions/no-transactions';
-import { HttpClient } from '@angular/common/http';
-import { TransactionsService } from '../../shared/transaction/services/transactions';
+import { TransactionItem } from './components/transaction-item/transaction-item';
+import { RouterLink } from '@angular/router';
+import { TransactionsService } from '../../shared/transaction/services/transactions.service';
 
 @Component({
   selector: 'app-home',
-  imports: [Balance, TransactionItem, NoTransactions],
+  imports: [Balance, TransactionItem, NoTransactions, MatButtonModule, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -21,13 +21,12 @@ export class Home implements OnInit {
   ngOnInit(): void {
     this.getTransactions();
   }
-  
+
   private getTransactions() {
-    this.transactionsService.getAll()
-      .subscribe({
-        next: (transactions) => {
-          this.transactions.set(transactions);
-        }
-      })
+    this.transactionsService.getAll().subscribe({
+      next: (transactions) => {
+        this.transactions.set(transactions);
+      },
+    });
   }
 }

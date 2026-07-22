@@ -7,3 +7,5 @@ export interface Transaction {
     value: number;
     type: TransactionType;
 }
+
+export type TransactionPayload = Omit<Transaction, 'id'>;

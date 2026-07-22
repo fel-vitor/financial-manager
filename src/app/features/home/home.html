@@ -2,8 +2,10 @@
     [transactions]="transactions()"
 />
 
-@for (item of transactions(); track item) {
-    <app-transaction-item [transaction]="item" />
-} @empty {
-    <app-no-transactions />
-} 
+<div class="transaction">
+    @for (item of transactions(); track item) {
+        <app-transaction-item [transaction]="item" />
+    } @empty {
+        <app-no-transactions />
+    } 
+</div>

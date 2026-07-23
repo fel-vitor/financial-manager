@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
-import { TransactionType } from '../../../../../../../../shared/transaction/enums/transaction-types';
-import { Transaction } from '../../../../../../../../shared/transaction/interfaces/transaction';
+import { TransactionType } from '@shared/transaction/enums/transaction-types';
+import { Transaction } from '@shared/transaction/interfaces/transaction';
 
 const CssClasses = {
   [TransactionType.INCOME]: 'income',
@@ -13,7 +13,7 @@ const CssClasses = {
   template: '{{ transaction().value }}',
   styleUrl: './transaction-value.scss',
   host: {
-    '[class]': 'cssClass()'
+    '[class]': 'cssClass()',
   },
 })
 export class TransactionValue {

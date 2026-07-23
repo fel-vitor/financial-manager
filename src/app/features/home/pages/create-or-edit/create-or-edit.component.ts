@@ -4,16 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { FeedbackService } from '@shared/feedback/services/feedback.service';
+import { TransactionType } from '@shared/transaction/enums/transaction-types';
+import { Transaction, TransactionPayload } from '@shared/transaction/interfaces/transaction';
+import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { NgxMaskDirective } from 'ngx-mask';
-import { TransactionType } from '../../../../shared/transaction/enums/transaction-types';
-import {
-  Transaction,
-  TransactionPayload,
-} from '../../../../shared/transaction/interfaces/transaction';
-import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 import { tap } from 'rxjs';
 
 @Component({
@@ -68,7 +64,7 @@ export class CreateOrEditComponent {
     };
 
     this.createOrEdit(payload).subscribe({
-      next: () =>  this.router.navigate(['/']),
+      next: () => this.router.navigate(['/']),
     });
   }
 

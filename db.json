@@ -7,70 +7,10 @@
       "type": "income"
     },
     {
-      "id": 2,
-      "title": "VA",
-      "value": 0,
-      "type": "income"
-    },
-    {
       "id": 3,
       "title": "Aluguel",
       "value": 100,
       "type": "outcome"
-    },
-    {
-      "title": "Salário 02 - ED",
-      "type": "income",
-      "value": 3000,
-      "id": 5
-    },
-    {
-      "title": "Comprei uma coxinha",
-      "type": "outcome",
-      "value": 10,
-      "id": 6
-    },
-    {
-      "title": "TESTE",
-      "type": "outcome",
-      "value": 0.11,
-      "id": 7
-    },
-    {
-      "title": "TESTE - 02",
-      "type": "outcome",
-      "value": 1,
-      "id": 8
-    },
-    {
-      "title": "Ganho",
-      "type": "outcome",
-      "value": 200,
-      "id": 9
-    },
-    {
-      "title": "TESTE - 1000",
-      "type": "income",
-      "value": 1000,
-      "id": 10
-    },
-    {
-      "title": "TESTE - 1000",
-      "type": "income",
-      "value": 1000,
-      "id": 11
-    },
-    {
-      "title": "VA 2",
-      "type": "outcome",
-      "value": 1000,
-      "id": 12
-    },
-    {
-      "title": "TESTE - GASTO - ED",
-      "type": "outcome",
-      "value": 10,
-      "id": 13
     }
   ]
 }

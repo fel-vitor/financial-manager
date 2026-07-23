@@ -6,6 +6,17 @@ import { NoTransactions } from './components/no-transactions/no-transactions';
 import { TransactionItem } from './components/transaction-item/transaction-item';
 import { Router, RouterLink } from '@angular/router';
 import { TransactionsService } from '../../shared/transaction/services/transactions.service';
+import { FeedbackService } from '../../shared/feedback/services/feedback.service';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { filter } from 'rxjs';
+import { ConfirmationDialogService } from '../../shared/dialog/confirmation/services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +26,9 @@ import { TransactionsService } from '../../shared/transaction/services/transacti
 })
 export class Home implements OnInit {
   private transactionsService = inject(TransactionsService);
+  private feedbackService = inject(FeedbackService);
   private router = inject(Router);
+  private confirmationDialogService = inject(ConfirmationDialogService);
 
   transactions = signal<Transaction[]>([]);
 
@@ -25,6 +38,28 @@ export class Home implements OnInit {
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id]);
+  }
+
+  remove(transaction: Transaction) {
+    this.confirmationDialogService.open({
+      title: 'Deletar transação',
+      message: 'Você realmente quer desletar essa transação?',
+    }).subscribe({
+      next: () => {
+        this.transactionsService.delete(transaction.id).subscribe({
+          next: () => {
+            this.removeTransactionFromArray(transaction);
+            this.feedbackService.success('Transação removida com sucesso!');
+          },
+        });
+      },
+    });
+  }
+
+  private removeTransactionFromArray(transaction: Transaction) {
+    this.transactions.update((transactions) => {
+      return transactions.filter((item) => item.id !== transaction.id);
+    });
   }
 
   private getTransactions() {

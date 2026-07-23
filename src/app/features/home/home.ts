@@ -17,10 +17,18 @@ import {
 } from '@angular/material/dialog';
 import { filter } from 'rxjs';
 import { ConfirmationDialogService } from '../../shared/dialog/confirmation/services/confirmation-dialog.service';
+import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
 
 @Component({
   selector: 'app-home',
-  imports: [Balance, TransactionItem, NoTransactions, MatButtonModule, RouterLink],
+  imports: [
+    Balance,
+    TransactionItem,
+    NoTransactions,
+    MatButtonModule,
+    RouterLink,
+    TransactionContainerComponent,
+  ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -41,19 +49,21 @@ export class Home implements OnInit {
   }
 
   remove(transaction: Transaction) {
-    this.confirmationDialogService.open({
-      title: 'Deletar transação',
-      message: 'Você realmente quer desletar essa transação?',
-    }).subscribe({
-      next: () => {
-        this.transactionsService.delete(transaction.id).subscribe({
-          next: () => {
-            this.removeTransactionFromArray(transaction);
-            this.feedbackService.success('Transação removida com sucesso!');
-          },
-        });
-      },
-    });
+    this.confirmationDialogService
+      .open({
+        title: 'Deletar transação',
+        message: 'Você realmente quer desletar essa transação?',
+      })
+      .subscribe({
+        next: () => {
+          this.transactionsService.delete(transaction.id).subscribe({
+            next: () => {
+              this.removeTransactionFromArray(transaction);
+              this.feedbackService.success('Transação removida com sucesso!');
+            },
+          });
+        },
+      });
   }
 
   private removeTransactionFromArray(transaction: Transaction) {

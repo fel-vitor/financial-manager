@@ -1,15 +1,14 @@
-import { Component, inject, signal } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { RouterLink, Router } from "@angular/router";
-import { ConfirmationDialogService } from "../../../../shared/dialog/confirmation/services/confirmation-dialog.service";
-import { FeedbackService } from "../../../../shared/feedback/services/feedback.service";
-import { Transaction } from "../../../../shared/transaction/interfaces/transaction";
-import { TransactionsService } from "../../../../shared/transaction/services/transactions.service";
-import { Balance } from "./components/balance/balance";
-import { NoTransactions } from "./components/no-transactions/no-transactions";
-import { TransactionContainerComponent } from "./components/transaction-container/transaction-container.component";
-import { TransactionItem } from "./components/transaction-item/transaction-item";
-
+import { Component, inject, input, linkedSignal, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink, Router } from '@angular/router';
+import { ConfirmationDialogService } from '../../../../shared/dialog/confirmation/services/confirmation-dialog.service';
+import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
+import { Transaction } from '../../../../shared/transaction/interfaces/transaction';
+import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
+import { Balance } from './components/balance/balance';
+import { NoTransactions } from './components/no-transactions/no-transactions';
+import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
+import { TransactionItem } from './components/transaction-item/transaction-item';
 
 @Component({
   selector: 'app-list',
@@ -30,11 +29,9 @@ export class ListComponent {
   private router = inject(Router);
   private confirmationDialogService = inject(ConfirmationDialogService);
 
-  transactions = signal<Transaction[]>([]);
+  transactions = input.required<Transaction[]>();
 
-  ngOnInit(): void {
-    this.getTransactions();
-  }
+  items = linkedSignal(() => this.transactions());
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id]);
@@ -59,16 +56,8 @@ export class ListComponent {
   }
 
   private removeTransactionFromArray(transaction: Transaction) {
-    this.transactions.update((transactions) => {
+    this.items.update((transactions) => {
       return transactions.filter((item) => item.id !== transaction.id);
-    });
-  }
-
-  private getTransactions() {
-    this.transactionsService.getAll().subscribe({
-      next: (transactions) => {
-        this.transactions.set(transactions);
-      },
     });
   }
 }

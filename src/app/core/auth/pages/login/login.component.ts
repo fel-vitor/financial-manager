@@ -6,6 +6,9 @@ import { AuthService } from '../../services/auth.service';
 import { UserCredentials } from '../../interfaces/user-credentials';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthTokenStorageService } from '../../services/auth-token-storage.service';
+import { LoggedInUserStoreService } from '../../stores/logged-in-user-store.service';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LoginComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  authTokenStorageService = inject(AuthTokenStorageService);
+  loggedInUserStoreService = inject(LoggedInUserStoreService);
 
   form = new FormGroup({
     user: new FormControl('', {
@@ -37,17 +42,22 @@ export class LoginComponent {
     };
 
     this.authService.login(payload)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['']);
-        },
-        error: (res: HttpErrorResponse) => {
-          if (res.status === 401) {
-            this.form.setErrors({
-              wrongCredentials: true,
-            });
-          }
+    .pipe(
+      tap((res) => this.authTokenStorageService.set(res.token)),
+      switchMap((res) => this.authService.getCurrentUser(res.token)),
+      tap((user) => this.loggedInUserStoreService.setUser(user)),
+    )
+    .subscribe({
+      next: (_) => {
+        this.router.navigate(['']);
+      },
+      error: (res: HttpErrorResponse) => {
+        if (res.status === 401) {
+          this.form.setErrors({
+            wrongCredentials: true,
+          });
         }
-      });
+      },
+    });
   }
 }

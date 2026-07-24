@@ -10,6 +10,7 @@
 @use 'styles/custom-color';
 @use 'styles/overrides/snackbar.scss';
 @use 'styles/overrides/button.scss';
+@use 'styles/common/container.scss';
 
 html {
   @include mat.theme((

@@ -9,6 +9,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { routes } from './app.routes';
+import { provideLoggedInUser } from './core/auth/initializers/provide-logged-in-user';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,5 +29,6 @@ export const appConfig: ApplicationConfig = {
         duration: 3000,
       } as MatSnackBarConfig,
     },
+    provideLoggedInUser(),
   ],
 };

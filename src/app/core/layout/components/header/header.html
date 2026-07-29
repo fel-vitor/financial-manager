@@ -1,5 +1,11 @@
 <header>
-    <mat-toolbar>
-        <span>header works!</span>
+    <mat-toolbar class="toolbar">
+        <div class="toolbar-content">
+            <span>Gerenciador financeiro</span>
+    
+            @if(true) {
+                <button matButton="filled" class="toolbar-logout">Sair</button>
+            }
+        </div>
     </mat-toolbar>
 </header>

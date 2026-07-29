@@ -5,18 +5,19 @@ import {
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { routes } from './app.routes';
 import { provideLoggedInUser } from './core/auth/initializers/provide-logged-in-user';
+import { setAuthTokenInterceptor } from './core/auth/interceptors/set-auth-token-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([setAuthTokenInterceptor])),
     provideEnvironmentNgxMask({
       thousandSeparator: '.',
       decimalMarker: ',',

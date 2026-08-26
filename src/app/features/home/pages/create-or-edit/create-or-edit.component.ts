@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { FeedbackService } from '@shared/feedback/services/feedback.service';
+import { CustomFormFieldDirective } from '@shared/material/form-field/directives/custom-form-field.directive';
 import { FullWidthDirective } from '@shared/material/form-field/directives/full-width.directive';
 import { MarginBottomDirective } from '@shared/material/form-field/directives/margin-bottom.directive';
 import { TransactionType } from '@shared/transaction/enums/transaction-types';
@@ -24,8 +25,7 @@ import { tap } from 'rxjs';
     MatButtonToggleModule,
     NgxMaskDirective,
     NgxMaskDirective,
-    FullWidthDirective,
-    MarginBottomDirective,
+    CustomFormFieldDirective,
   ],
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',

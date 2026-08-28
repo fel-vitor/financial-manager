@@ -1,8 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { LoggedInUserStoreService } from '../../../auth/stores/logged-in-user-store.service';
 import { LogoutDirective } from './directives/logout.directive';
+import { LoggedInUserStoreService } from '@core/auth/stores/logged-in-user-store.service';
 
 @Component({
   selector: 'app-sidenav-items',

@@ -1,3 +1,5 @@
+@use 'mixins/media-query' as mq;
+
 .transactions {
     margin: 24px 0;
 }
@@ -10,5 +12,9 @@
 .actions {
     margin: 24px 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+
+    @include mq.media-query(sm) {
+        justify-content: flex-end;
+    }
 }

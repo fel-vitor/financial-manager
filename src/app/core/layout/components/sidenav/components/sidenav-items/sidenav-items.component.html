@@ -5,6 +5,7 @@
             [routerLink]="link.url"
             routerLinkActive="mdc-list-item--activated"
             [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeSidenav()"
         >{{ link.label }}</a>
     }
 </mat-nav-list>

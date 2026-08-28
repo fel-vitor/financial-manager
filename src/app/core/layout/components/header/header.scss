@@ -2,18 +2,11 @@
 
 .toolbar {
     display: flex;
-    justify-content: center;
 
     .toolbar-content {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        max-width: vars.$content-width;
-        
-        .toolbar-logout {
-            margin-left: auto;
-        }
     }
-
 }

@@ -1,9 +1,5 @@
-<app-balance
-    [transactions]="items()"
-/>
-
 <div class="actions">
-    <a matButton="filled" [routerLink]="'create'">Adicionar transação</a>
+    <a matButton="filled" [routerLink]="'create/new'">Adicionar transação</a>
 </div>
 
 <app-transaction-container class="transactions" [transactions]="items()">

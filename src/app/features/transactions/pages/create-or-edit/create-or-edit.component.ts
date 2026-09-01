@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '@shared/feedback/services/feedback.service';
 import { CustomFormFieldDirective } from '@shared/material/form-field/directives/custom-form-field.directive';
 import { FullWidthDirective } from '@shared/material/form-field/directives/full-width.directive';
@@ -34,6 +34,7 @@ export class CreateOrEditComponent {
   private transactionService = inject(TransactionsService);
   private router = inject(Router);
   private feedbackService = inject(FeedbackService);
+  private activatedRoute = inject(ActivatedRoute);
 
   transaction = input<Transaction>();
 
@@ -68,7 +69,7 @@ export class CreateOrEditComponent {
     };
 
     this.createOrEdit(payload).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => this.router.navigate(['../../'], { relativeTo: this.activatedRoute }),
     });
   }
 

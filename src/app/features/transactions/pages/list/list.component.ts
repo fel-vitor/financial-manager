@@ -1,11 +1,10 @@
 import { Component, inject, input, linkedSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/dialog/confirmation/services/confirmation-dialog.service';
 import { FeedbackService } from '@shared/feedback/services/feedback.service';
 import { Transaction } from '@shared/transaction/interfaces/transaction';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
-import { Balance } from './components/balance/balance';
 import { NoTransactions } from './components/no-transactions/no-transactions';
 import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
 import { TransactionItem } from './components/transaction-item/transaction-item';
@@ -13,7 +12,6 @@ import { TransactionItem } from './components/transaction-item/transaction-item'
 @Component({
   selector: 'app-list',
   imports: [
-    Balance,
     TransactionItem,
     NoTransactions,
     MatButtonModule,
@@ -28,13 +26,14 @@ export class ListComponent {
   private feedbackService = inject(FeedbackService);
   private router = inject(Router);
   private confirmationDialogService = inject(ConfirmationDialogService);
+  private activatedRoute = inject(ActivatedRoute);
 
   transactions = input.required<Transaction[]>();
 
   items = linkedSignal(() => this.transactions());
 
   edit(transaction: Transaction) {
-    this.router.navigate(['edit', transaction.id]);
+    this.router.navigate(['edit', transaction.id], { relativeTo: this.activatedRoute });
   }
 
   remove(transaction: Transaction) {

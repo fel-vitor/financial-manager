@@ -8,6 +8,7 @@ import { TransactionsService } from '@shared/transaction/services/transactions.s
 import { NoTransactions } from './components/no-transactions/no-transactions';
 import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
 import { TransactionItem } from './components/transaction-item/transaction-item';
+import { SearchComponent } from './components/search/search.component';
 
 @Component({
   selector: 'app-list',
@@ -17,6 +18,7 @@ import { TransactionItem } from './components/transaction-item/transaction-item'
     MatButtonModule,
     RouterLink,
     TransactionContainerComponent,
+    SearchComponent,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',

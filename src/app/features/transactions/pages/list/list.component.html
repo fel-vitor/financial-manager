@@ -1,5 +1,5 @@
 <div class="actions">
-    <app-search class="search" />
+    <app-search class="search" [(searchTerm)]="searchTerm" />
     <a class="add-transaction" matButton="filled" [routerLink]="'create/new'">Adicionar transação</a>
 </div>
 

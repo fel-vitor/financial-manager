@@ -1,4 +1,5 @@
-import { Component, inject, input, linkedSignal, resource, signal } from '@angular/core';
+import { HttpParams, httpResource, HttpResourceRequest } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/dialog/confirmation/services/confirmation-dialog.service';
@@ -6,10 +7,9 @@ import { FeedbackService } from '@shared/feedback/services/feedback.service';
 import { Transaction } from '@shared/transaction/interfaces/transaction';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { NoTransactions } from './components/no-transactions/no-transactions';
+import { SearchComponent } from './components/search/search.component';
 import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
 import { TransactionItem } from './components/transaction-item/transaction-item';
-import { SearchComponent } from './components/search/search.component';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -37,17 +37,31 @@ export class ListComponent {
 
   searchTerm = signal('');
 
-  resourceRef = resource({
-    params: () => {
-      return {
-        searchTerm: this.searchTerm(),
-      };
-    },
-    loader: ({ params: { searchTerm } }) => {
-      return firstValueFrom(this.transactionsService.getAll(searchTerm));
-    },
-    defaultValue: [],
-  });
+  // resourceRef = resource({
+  //   params: () => {
+  //     return {
+  //       searchTerm: this.searchTerm(),
+  //     };
+  //   },
+  //   loader: ({ params: { searchTerm } }) => {
+  //     return firstValueFrom(this.transactionsService.getAll(searchTerm));
+  //   },
+  //   defaultValue: [],
+  // });
+
+  // resourceRef = rxResource({
+  //   params: () => {
+  //     return {
+  //       searchTerm: this.searchTerm(),
+  //     };
+  //   },
+  //   stream: ({ params: { searchTerm } }) => {
+  //     return this.transactionsService.getAll(searchTerm);
+  //   },
+  //   defaultValue: [],
+  // });
+
+  resourceRef = this.transactionsService.getAllWithHttpResource(this.searchTerm);
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id], { relativeTo: this.activatedRoute });

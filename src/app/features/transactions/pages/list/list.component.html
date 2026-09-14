@@ -3,7 +3,7 @@
     <a class="add-transaction" matButton="filled" [routerLink]="'create/new'">Adicionar transação</a>
 </div>
 
-<app-transaction-container class="transactions" [transactions]="items()">
+<app-transaction-container class="transactions" [transactions]="resourceRef.value()">
     <ng-template #item let-item="item">
         <app-transaction-item
             class="transaction"

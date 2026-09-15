@@ -1,5 +1,5 @@
 import { HttpParams, httpResource, HttpResourceRequest } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Signal, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/dialog/confirmation/services/confirmation-dialog.service';
@@ -10,6 +10,14 @@ import { NoTransactions } from './components/no-transactions/no-transactions';
 import { SearchComponent } from './components/search/search.component';
 import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
 import { TransactionItem } from './components/transaction-item/transaction-item';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs';
+
+function typeDelay(signal: Signal<string>) {
+  const observable = toObservable(signal).pipe(debounceTime(500));;
+
+  return toSignal(observable, { initialValue: '' });
+}
 
 @Component({
   selector: 'app-list',
@@ -61,7 +69,7 @@ export class ListComponent {
   //   defaultValue: [],
   // });
 
-  resourceRef = this.transactionsService.getAllWithHttpResource(this.searchTerm);
+  resourceRef = this.transactionsService.getAllWithHttpResource(typeDelay(this.searchTerm));
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id], { relativeTo: this.activatedRoute });

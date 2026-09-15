@@ -3,17 +3,22 @@
     <a class="add-transaction" matButton="filled" [routerLink]="'create/new'">Adicionar transação</a>
 </div>
 
-<app-transaction-container class="transactions" [transactions]="resourceRef.value()">
-    <ng-template #item let-item="item">
-        <app-transaction-item
-            class="transaction"
-            [transaction]="item"
-            (edit)="edit($event)"
-            (remove)="remove($event)"
-        />
-    </ng-template>
+@if(isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+} @else {
+    <app-transaction-container class="transactions" [transactions]="transactions()">
+        <ng-template #item let-item="item">
+            <app-transaction-item
+                class="transaction"
+                [transaction]="item"
+                (edit)="edit($event)"
+                (remove)="remove($event)"
+            />
+        </ng-template>
+    
+        <ng-template #noItems>
+            <app-no-transactions />
+        </ng-template>
+    </app-transaction-container>
+}
 
-    <ng-template #noItems>
-        <app-no-transactions />
-    </ng-template>
-</app-transaction-container>

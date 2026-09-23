@@ -1,0 +1,13 @@
+.chat-container {
+  margin-top: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}

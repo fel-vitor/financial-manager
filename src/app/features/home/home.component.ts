@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { TransactionType } from '@shared/transaction/enums/transaction-types';
@@ -15,6 +15,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
   imports: [Balance, PieChartComponent, MatCardModule, MatButtonModule, MatProgressBarModule, MatIconModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   transactions = input.required<Transaction[]>();

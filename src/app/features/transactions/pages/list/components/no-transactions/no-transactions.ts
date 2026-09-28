@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [MatCardModule],
   templateUrl: './no-transactions.html',
   styleUrl: './no-transactions.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoTransactions {
 

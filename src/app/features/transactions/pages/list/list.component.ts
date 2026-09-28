@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -32,6 +32,7 @@ function typeDelay(signal: Signal<string>) {
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent {
   private transactionsService = inject(TransactionsService);

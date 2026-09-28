@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -29,6 +29,7 @@ import { tap } from 'rxjs';
   ],
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateOrEditComponent {
   private transactionService = inject(TransactionsService);

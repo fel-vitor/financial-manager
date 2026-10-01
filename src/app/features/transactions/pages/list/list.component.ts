@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, debounced, inject, Signal, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -45,7 +45,6 @@ export class ListComponent {
 
   // items = linkedSignal(() => this.transactions());
 
-  searchTerm = signal('');
 
   // resourceRef = resource({
   //   params: () => {
@@ -71,7 +70,11 @@ export class ListComponent {
   //   defaultValue: [],
   // });
 
-  private resourceRef = this.transactionsService.getAllWithHttpResource(typeDelay(this.searchTerm));
+  searchTerm = signal('');
+
+  private searchTermWithDebounce = debounced(this.searchTerm, 500);
+
+  private resourceRef = this.transactionsService.getAllWithHttpResource(this.searchTermWithDebounce.value);
 
   transactions = computed(() => this.resourceRef.value());
   isLoading = computed(() => this.resourceRef.isLoading());

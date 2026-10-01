@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, debounced, inject, Signal, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  debounced,
+  inject,
+  linkedSignal,
+  Signal,
+  signal,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -12,12 +21,18 @@ import { NoTransactions } from './components/no-transactions/no-transactions';
 import { SearchComponent } from './components/search/search.component';
 import { TransactionContainerComponent } from './components/transaction-container/transaction-container.component';
 import { TransactionItem } from './components/transaction-item/transaction-item';
+import { TransactionType } from '@shared/transaction/enums/transaction-types';
+import { GetTransactionFilter } from '@shared/transaction/interfaces/get-transactions-filter';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
-function typeDelay(signal: Signal<string>) {
-  const observable = toObservable(signal).pipe(debounceTime(500));
-
-  return toSignal(observable, { initialValue: '' });
-}
+const typeFilterOptions = [
+  { value: 'all', label: 'Todas' },
+  { value: TransactionType.INCOME, label: 'Receitas' },
+  { value: TransactionType.OUTCOME, label: 'Despesas' },
+]
 
 @Component({
   selector: 'app-list',
@@ -29,6 +44,10 @@ function typeDelay(signal: Signal<string>) {
     TransactionContainerComponent,
     SearchComponent,
     MatProgressBar,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    FormsModule,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -44,7 +63,6 @@ export class ListComponent {
   // transactions = input.required<Transaction[]>();
 
   // items = linkedSignal(() => this.transactions());
-
 
   // resourceRef = resource({
   //   params: () => {
@@ -70,11 +88,40 @@ export class ListComponent {
   //   defaultValue: [],
   // });
 
-  searchTerm = signal('');
+  typeFilterOptions = typeFilterOptions;
 
-  private searchTermWithDebounce = debounced(this.searchTerm, 500);
+  filters = signal<GetTransactionFilter>({
+    search: '',
+    type: 'all',
+  });
 
-  private resourceRef = this.transactionsService.getAllWithHttpResource(this.searchTermWithDebounce.value);
+  private filtersTermWithDebounce = debounced(this.filters, 500);
+
+  private resourceRef = this.transactionsService.getAllWithHttpResource(
+    this.filtersTermWithDebounce.value,
+  );
+
+  search = linkedSignal(() => this.filters().search, {
+    set: (value) => {
+      this.filters.update((filters) => {
+        return {
+          ...filters,
+          search: value,
+        }
+      })
+    }
+  });
+
+  type = linkedSignal(() => this.filters().type, {
+    set: (value) => {
+      this.filters.update((filters) => {
+        return {
+          ...filters,
+          type: value,
+        }
+      })
+    }
+  });
 
   transactions = computed(() => this.resourceRef.value());
   isLoading = computed(() => this.resourceRef.isLoading());

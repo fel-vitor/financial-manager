@@ -1,20 +1,20 @@
 import { Routes } from '@angular/router';
-import { CreateOrEditComponent } from './pages/create-or-edit/create-or-edit.component';
+
 import { getTransactionByIdResolver } from './pages/create-or-edit/resolvers/get-transaction-by-id-resolver';
-import { ListComponent } from './pages/list/list.component';
+
 
 export const routes: Routes = [
   {
     path: '',
-    component: ListComponent,
+    loadComponent: () => import('./pages/list/list.component').then(m => m.ListComponent),
   },
   {
     path: 'create/new',
-    component: CreateOrEditComponent,
+    loadComponent: () => import('./pages/create-or-edit/create-or-edit.component').then(m => m.CreateOrEditComponent),
   },
   {
     path: 'edit/:id',
-    component: CreateOrEditComponent,
+    loadComponent: () => import('./pages/create-or-edit/create-or-edit.component').then(m => m.CreateOrEditComponent),
     resolve: {
       transaction: getTransactionByIdResolver,
     }

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { UserCredentials } from '../interfaces/user-credentials';
 import { AuthTokenResponse } from '../interfaces/auth-token-reponse';
@@ -20,9 +20,7 @@ function generateToken(): string {
   return token;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
   login(payload: UserCredentials): Observable<AuthTokenResponse> {
     if (payload.user === 'admin' && payload.password === '123') {

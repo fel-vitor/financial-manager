@@ -4,6 +4,7 @@ import {
   computed,
   debounced,
   inject,
+  injectAsync,
   linkedSignal,
   Signal,
   signal,
@@ -32,7 +33,7 @@ const typeFilterOptions = [
   { value: 'all', label: 'Todas' },
   { value: TransactionType.INCOME, label: 'Receitas' },
   { value: TransactionType.OUTCOME, label: 'Despesas' },
-]
+];
 
 @Component({
   selector: 'app-list',
@@ -59,6 +60,9 @@ export class ListComponent {
   private router = inject(Router);
   private confirmationDialogService = inject(ConfirmationDialogService);
   private activatedRoute = inject(ActivatedRoute);
+  private reportsServices = injectAsync(
+    () => import('./../../../../shared/transaction/services/reports.service'),
+  );
 
   // transactions = input.required<Transaction[]>();
 
@@ -107,9 +111,9 @@ export class ListComponent {
         return {
           ...filters,
           search: value,
-        }
-      })
-    }
+        };
+      });
+    },
   });
 
   type = linkedSignal(() => this.filters().type, {
@@ -118,9 +122,9 @@ export class ListComponent {
         return {
           ...filters,
           type: value,
-        }
-      })
-    }
+        };
+      });
+    },
   });
 
   transactions = computed(() => this.resourceRef.value());
@@ -146,6 +150,10 @@ export class ListComponent {
           });
         },
       });
+  }
+
+  async export() {
+    (await this.reportsServices()).exportToCsv(this.transactions());
   }
 
   private removeTransactionFromArray(transaction: Transaction) {

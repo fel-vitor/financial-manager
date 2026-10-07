@@ -14,14 +14,12 @@ export abstract class GenerateTokenService {
 
 class CryptoGenerateToken extends GenerateTokenService {
   override create(): string {
-    debugger;
     return window.crypto.randomUUID();
   }
 }
 
 class MathRandomGenerateToken extends GenerateTokenService {
   override create(): string {
-    debugger;
     let token = '';
 
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

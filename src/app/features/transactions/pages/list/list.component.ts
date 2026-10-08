@@ -33,6 +33,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { createMouseNear } from './functions/create-mouse-near';
+import { ActionLogService } from '../../store/action-log.service';
 
 const typeFilterOptions = [
   { value: 'all', label: 'Todas' },
@@ -65,6 +66,7 @@ export class ListComponent {
   private router = inject(Router);
   private confirmationDialogService = inject(ConfirmationDialogService);
   private activatedRoute = inject(ActivatedRoute);
+  private actionLogService = inject(ActionLogService);
 
   private isMouseNear = createMouseNear();
   private exportBtn = viewChild.required('exportBtn', {
@@ -116,6 +118,10 @@ export class ListComponent {
   // });
 
   typeFilterOptions = typeFilterOptions;
+
+  constructor() {
+    this.actionLogService.add('Listagem de transações');
+  }
 
   filters = signal<GetTransactionFilter>({
     search: '',

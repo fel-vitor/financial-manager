@@ -6,6 +6,9 @@ export const routes: Routes = [
     path: '',
     canActivate: [isAuthenticatedGuard],
     loadComponent: () => import('./core/layout/layout').then((m) => m.Layout),
+    data: {
+      layout: 'default',
+    },
     children: [
       {
         path: '',

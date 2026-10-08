@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -14,6 +14,7 @@ import { Transaction, TransactionPayload } from '@shared/transaction/interfaces/
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { NgxMaskDirective } from 'ngx-mask';
 import { tap } from 'rxjs';
+import { ActionLogService } from '../../store/action-log.service';
 
 @Component({
   selector: 'app-create',
@@ -36,6 +37,7 @@ export class CreateOrEditComponent {
   private router = inject(Router);
   private feedbackService = inject(FeedbackService);
   private activatedRoute = inject(ActivatedRoute);
+  private actionLogService = inject(ActionLogService);
 
   transaction = input<Transaction>();
 
@@ -57,6 +59,12 @@ export class CreateOrEditComponent {
         }),
       }),
   );
+
+  constructor() {
+    effect(() => {
+      this.actionLogService.add(this.isEdit() ? 'Editando transação' : 'Criando transação');
+    })
+  }
 
   submit() {
     if (this.form().invalid) {

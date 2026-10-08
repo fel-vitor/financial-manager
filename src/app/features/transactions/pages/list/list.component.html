@@ -12,7 +12,7 @@
 
     <a class="add-transaction" matButton="filled" [routerLink]="'create/new'">Adicionar</a>
 
-    <button class="add-transaction" matButton="outlined" (click)="export()">
+    <button #exportBtn class="add-transaction" matButton="outlined" (click)="export()">
         Exportar
     </button>
 </div>
